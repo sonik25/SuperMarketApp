@@ -1,6 +1,7 @@
 let mongoose = require('mongoose');
 let Joi = require('@hapi/joi');
 let jwt = require('jsonwebtoken');
+let config = require('config');
 
 let UserRegisterSchema = new mongoose.Schema({
     firstName:{type:String,required:true,minlength:3,maxlength:250},
@@ -18,6 +19,11 @@ let UserRegisterSchema = new mongoose.Schema({
     updatedDate:{type:Date,default:Date.now}
 });
 
+UserRegisterSchema.methods.GenerateToken = function() {
+    let token = jwt.sign({_id:this._id} , config.get('SMapps'));
+    return token;
+}
+
 let User = mongoose.model('Users', UserRegisterSchema);
 function ValidationError(message){
     let Schema = Joi.object({
@@ -28,12 +34,7 @@ function ValidationError(message){
             userEmail:Joi.string().required().email(),
             userPassword:Joi.string().required()
         },
-        termsAcceptCheck:Joi.boolean(),
-        resetPasswordToken:Joi.string(),
-        resetPssowordExpires:Joi.Date(),
-        isAdmin:Joi.boolean(),
-        recordDate:Joi.Date(),
-        updatedDate:Joi.Date()
+        termsAcceptCheck:Joi.boolean()
 
     });
 
