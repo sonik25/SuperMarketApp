@@ -34,4 +34,14 @@ router.post('/userRegister', async(req,res) =>{
     }
 });
 
+router.get('/userList', async(req,res) =>{
+    try{
+        let data = await UserReg.User.find().select(["firstName","lastName"]);
+        res.send(data);
+    }
+    catch(ex){
+        res.send(ex.message);
+    }
+});
+
 module.exports = router;
