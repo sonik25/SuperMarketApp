@@ -20,7 +20,7 @@ let UserRegisterSchema = new mongoose.Schema({
 });
 
 UserRegisterSchema.methods.GenerateToken = function() {
-    let token = jwt.sign({_id:this._id} , config.get('SMapps'));
+    let token = jwt.sign({_id: this._id} , config.get('SMapps'));
     return token;
 }
 

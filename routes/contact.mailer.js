@@ -16,34 +16,35 @@ router.post('/contactMail', async (req,res) =>{
         let result = await data.save();
         console.log(result);
 
-
         let transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 465,
             secure: true,
             auth:{
-                user: 'sonal.amberkar2511@gmail.com',
-                pass:'9765053991'
+                user: 'wynebatman@gmail.com', 
+                pass: 'vipulsingh'
             }
         });
 
-        if(!transporter){ res.status(401).send({message:'something went wrong..'})}
-
-        // let mailOptions = {
-        //     from: ' "SN Apps:" <sonal.amberkar2511@gmail.com>'
-        // }
-
-
-        let info = await transporter.sendMail({
-            from: '"SN Apps:" <sonal.amberkar2511@gmail.com>', // sender address
-            to: req.body.email, // list of receivers
-            subject: 'Thank you for your valuable response', // Subject line
-            text: 'Thank you, Our Sales Team will Connect you soon' // plain text body
+        if(!transporter) res.status(401).send({
+            message:'Something went Wrong'
         });
-
-        console.log('Message sent: %s', info.messageId);
-        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-    
+        
+        let mailOption = {
+            from:'"SN Apps: Sweet_smile:" <sonal.amberkar2511@gamil.com>',
+            to: data.email,
+            subject:'Contact Mail',
+            text:'Thank you for Contacting Us..'
+        };
+        
+        transporter.sendMail(mailOption, (error, info) =>{
+            if(error){
+                return console.log(error);
+            }
+            console.log('message sent: %s',info.messageId);
+        });
+        
+       
         // Preview only available when sending through an Ethereal account
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
         // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
