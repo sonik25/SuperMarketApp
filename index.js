@@ -8,6 +8,8 @@ let contactForm = require('./routes/contact.mailer');
 let userLogin = require('./routes/auth/user.login');
 let forgotpasswordmailer = require('./routes/forgotpassword.mailer');
 let forgotpassword = require('./routes/forgotpassword');
+let subcategory = require('./routes/subcategory');
+let category = require('./routes/category');
 app.use(express.json());
 
 // if(!config.get("SMapps"))
@@ -27,3 +29,5 @@ app.use('/api/supermarket/',contactForm);
 app.use('/api/supermarket/',userLogin);
 app.use('/api/supermarket/forgotpassword/',forgotpasswordmailer);
 app.use('/api/supermarket/',forgotpassword);
+app.use('/api/supermarket/',subcategory);
+app.use('/api/supermarket/',category);

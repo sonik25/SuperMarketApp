@@ -5,19 +5,55 @@ let Cat = require('../db/category.schema');
 
 router.post('/addCategory', async(req,res) =>{
     try{
-        let {error} = ValidationError(req.body);
+        let {error} = Cat.ValidationError(req.body);
         if(error){ return res.status(403).send(error.details[0].message)}
+        let subcat = await Subcat.SubCategory.findById(req.body.subcategoryId);
+        if(!subcat) {return res.status(404).send('invalid subcategory Id')}
         let data = new Cat.Category({
             name:req.body.name,
-            subCategory:Subcat.SubCategory.findOne()
+            subCategory:{
+                _id:subcat.id,
+                name:subcat.name
+            }
         });
         let result = await data.save();
-        res.send({message:'Sub Category Created',d:result})
+        res.send({message:'Product Category Created',d:result})
 
     }
     catch(ex){
         res.send(ex.message);
     }
 });
+
+router.get('/allCategory', async(req,res) =>{
+    try{
+        let result = await Cat.Category.find();
+        res.send(result);
+    }
+    catch(ex){
+        res.send(ex.message);
+    }
+});
+
+router.get('/findCategory/:id', async(req,res) =>{
+    try{
+        let result = await Cat.Category.findById(req.params.id);
+        res.send(result);
+    }
+    catch(ex){
+        res.send(ex.message);
+    }
+});
+
+router.delete('/deleteCategory/:id', async(req,res) =>{
+    try{
+        let category = await Cat.Category.findByIdAndRemove(req.params.id);
+        if(!category) {return res.status(404).send({message:'Invalid category Id'})}
+        res.send({message:'Category Removed'});
+    }
+    catch(ex){
+        res.send(ex.message);
+    }
+})
 
 module.exports = router;

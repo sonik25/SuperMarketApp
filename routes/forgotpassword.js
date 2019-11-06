@@ -6,16 +6,21 @@ let model = require('../db/user.schema');
 
 router.post('/forgotpassword/:id', async(req,res) =>{
     try{
-    let user = await model.User.findOne({resetPasswordToken: req.params.id, 
-      resetPssowordExpires:{$gte:Date.now()}});
+        // console.log(req.params.id);
+        // console.log(resetPasswordExpires);
+        // console.log(Date.now());
+    let user = await model.User.findOne({resetPasswordToken: req.params.id,resetPssowordExpires: {$gt:Date.now()}});
+      console.log(user);
         //let user = await model.User.findOne({resetPasswordToken: req.params.id});
         if(!user){return res.status(401).send({message:'Invalid Token'})}
         let {error} = ValidationError(req.body);
         if(error){return res.send(error.details[0].message)} 
     let comparepassword = await bcrypt.compare(req.body.UserLogin.userPassword,user.UserLogin.userPassword);
-    if(!comparepassword) {return res.status(401).send({message:'this is old password make new'})}
+    if(comparepassword) {return res.status(401).send({message:'this is old password make new'})}
     let salt = await bcrypt.genSalt(10);
     user.UserLogin.userPassword = await bcrypt.hash(req.body.UserLogin.userPassword, salt);
+    user.resetPasswordExpires = undefined;
+    user.resetPasswordToken = undefined;
     let data = await user.save();
     res.send({message:'password updated !!', d:data})     
 }
@@ -26,7 +31,7 @@ catch(ex){
 
 function ValidationError(message){
     let Schema = Joi.object({
-        Userlogin:{
+        UserLogin:{
             userPassword: Joi.string().required()
         }
     });

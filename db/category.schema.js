@@ -10,8 +10,8 @@ let Category = mongoose.model('Category',categorySchema);
 
 function ValidationError(message){
     let Schema = Joi.object({
-        name:Joi.string().required().min().max(100),
-        subCategory:Joi.string(),require()
+        name:Joi.string().required().min(3).max(100),
+        subcategoryId:Joi.string().required()
     });
     return Schema.validate(message);
 }

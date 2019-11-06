@@ -10,7 +10,7 @@ router.post('/mailer', async(req,res) =>{
     let User = await model.User.findOne({"UserLogin.userEmail" : req.body.UserLogin.userEmail});
     if(!User) {return await res.status(401).send({message:'Invalid EmailID'})}
     User.resetPasswordToken = token;
-    resetPssowordExpires = Date.now() + 3600000;
+    User.resetPssowordExpires = Date.now() + 3600000;
     console.log(token);
     User = await User.save();
 
@@ -32,7 +32,7 @@ router.post('/mailer', async(req,res) =>{
         from:'"SN Apps: Sweet_smile:" <sonal.amberkar2511@gamil.com>',
         to: User.UserLogin.userEmail,
         subject:'Reset Your Password',
-        text:'open this link to change your password http://localhost:4700/forgotpassword/' + token
+        text:'open this link to change your password http://localhost:4700/api/supermarket/forgotpassword/' + token
     };
 
     transporter.sendMail(mailOption, (error, info) =>{

@@ -21,8 +21,8 @@ router.post('/contactMail', async (req,res) =>{
             port: 465,
             secure: true,
             auth:{
-                user: 'wynebatman@gmail.com', 
-                pass: 'vipulsingh'
+                user: 'sonal.amberkar2511@gmail.com', 
+                pass: 'Nik@123456'
             }
         });
 
@@ -44,9 +44,9 @@ router.post('/contactMail', async (req,res) =>{
             console.log('message sent: %s',info.messageId);
         });
         
-       
+         res.send({message:"message send"})
         // Preview only available when sending through an Ethereal account
-        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+        // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
         // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
     }
     catch(ex){
