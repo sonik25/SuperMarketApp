@@ -54,6 +54,7 @@ router.delete('/deleteCategory/:id', async(req,res) =>{
     catch(ex){
         res.send(ex.message);
     }
-})
+});
+
 
 module.exports = router;

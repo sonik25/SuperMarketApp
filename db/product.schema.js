@@ -21,7 +21,7 @@ let Product = mongoose.model('Product',productSchema);
 function ValidationError(message){
     let Schema = Joi.object({
         prodName:Joi.string().required().min(3).max(100),
-        image:Joi.string().required().min().max(),
+        image:Joi.string().required().min(3).max(100),
         description:Joi.string().required().min(3).max(1000),
         price:Joi.number().required().min(1),
         offerPrice:Joi.number().required().min(1),

@@ -10,7 +10,11 @@ let forgotpasswordmailer = require('./routes/forgotpassword.mailer');
 let forgotpassword = require('./routes/forgotpassword');
 let subcategory = require('./routes/subcategory');
 let category = require('./routes/category');
+let imageupload = require('./routes/image.upload');
+let product = require('./routes/product');
 app.use(express.json());
+
+app.use('/uploads',express.static(__dirname + '/uploads'));
 
 // if(!config.get("SMapps"))
 // {
@@ -31,3 +35,5 @@ app.use('/api/supermarket/forgotpassword/',forgotpasswordmailer);
 app.use('/api/supermarket/',forgotpassword);
 app.use('/api/supermarket/',subcategory);
 app.use('/api/supermarket/',category);
+app.use('/api/supermarket/',product);
+app.use('/api/supermarket/',imageupload);
