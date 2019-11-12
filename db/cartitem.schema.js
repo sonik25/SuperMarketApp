@@ -19,12 +19,12 @@ function ValidationError(message){
         prodId:Joi.string().required().min(1).max(100),
         name:Joi.string().required().min(3).max(100),
         image:Joi.string().required().min(3).max(100),
-        price:Joi.number().required().min(1).max(10),
+        price:Joi.number().required(),
         quantity:Joi.number().required().min(1).max(10),
-        totalPrice:Joi.number().required().min(1).max(10)
+        totalPrice:Joi.number().required()
     });
 
     return Schema.validate(message)
 };
 
-module.exports = {cartItem, ValidationError}
+module.exports = {cartItemSchema, cartItem, ValidationError}

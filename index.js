@@ -12,6 +12,8 @@ let subcategory = require('./routes/subcategory');
 let category = require('./routes/category');
 let imageupload = require('./routes/image.upload');
 let product = require('./routes/product');
+let addcart = require('./routes/auth/addtocart');
+let usercart = require('./routes/auth/cartbyuser')
 app.use(express.json());
 
 app.use('/uploads',express.static(__dirname + '/uploads'));
@@ -37,3 +39,5 @@ app.use('/api/supermarket/',subcategory);
 app.use('/api/supermarket/',category);
 app.use('/api/supermarket/',product);
 app.use('/api/supermarket/',imageupload);
+app.use('/api/supermarket/',addcart);
+app.use('/api/supermarket/',usercart);

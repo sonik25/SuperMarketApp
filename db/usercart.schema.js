@@ -4,7 +4,7 @@ let cartItemSchema = require('./cartitem.schema');
 
 let UserCartSchema = new mongoose.Schema({
     userEmail:{type:String,required:true,minlength:3,maxlength:100},
-    userCartItem:{type:cartItemSchema.cartItem,required:true}
+    userCartItem:{type:cartItemSchema.cartItemSchema,required:true}
 });
 
 let userCart = mongoose.model('userCart',UserCartSchema);
@@ -17,4 +17,4 @@ function ValidationError(message){
     return Schema.validate(message);
 };
 
-module.exports = {userCart,ValidationError};
+module.exports = {userCart,ValidationError,UserCartSchema};
