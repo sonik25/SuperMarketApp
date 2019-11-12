@@ -3,6 +3,8 @@ let router = express.Router();
 let Cartuser = require('../../db/usercart.schema');
 let UserInfo = require('../../db/user.schema');
 let Itemcart = require('../../db/cartitem.schema');
+let auth = require('../../middleware/user.auth');
+let admin = require('../../middleware/admin');
 
 router.post('/cartbyuser',async(req,res) =>{
     try{
@@ -35,7 +37,7 @@ router.post('/cartbyuser',async(req,res) =>{
     }
 });
 
-router.get('/allusercart',async(req,res) =>{
+router.get('/allusercart',[auth,admin],async(req,res) =>{
     try{
         data = await Cartuser.userCart.find();
         res.send(data);
@@ -45,7 +47,7 @@ router.get('/allusercart',async(req,res) =>{
     }
 });
 
-router.delete('/removefromcart/:emailid', async(req,res) =>{
+router.delete('/removefromcart/:emailid',auth, async(req,res) =>{
     try{
         let item = await Cartuser.userCart.find({'userEmail':req.params.emailid});
         if(!item) {return res.status(404).send({message:'Invalis Email or Cart item not found'})}
