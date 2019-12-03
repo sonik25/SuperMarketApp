@@ -31,6 +31,16 @@ router.post('/addtocart',auth, async(req,res) =>{
 
 });
 
+router.get('/allcartitem', async(req,res) =>{
+    try{
+        let result = await User_cart.cartItem.find().populate('prodId');
+    res.send(result);
+    }
+    catch(ex){
+        res.send(ex.message);
+    }
+})
+
 router.put('/updatetocart/:cartid', auth, async(req,res) =>{
     let item = await User_cart.cartItem.findById(req.params.cartid);
     if(!item){return res.status(404).send({message:'Invalid Product Id'})}

@@ -13,9 +13,10 @@ let category = require('./routes/category');
 let imageupload = require('./routes/image.upload');
 let product = require('./routes/product');
 let addcart = require('./routes/auth/addtocart');
-let usercart = require('./routes/auth/cartbyuser')
+let usercart = require('./routes/auth/cartbyuser');
+let cors = require("cors");
 app.use(express.json());
-
+app.use(cors());
 app.use('/uploads',express.static(__dirname + '/uploads'));
 
 // if(!config.get("SMapps"))

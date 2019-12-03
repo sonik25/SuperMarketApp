@@ -1,8 +1,10 @@
 let mongoose = require('mongoose');
 let Joi = require('@hapi/joi');
+let prodinfo = require('../db/product.schema');
+ 
 
 let cartItemSchema = new mongoose.Schema({
-    prodId:{ type:String, required:true, minlength:1,maxlength:100},
+    prodId:{ type:mongoose.Schema.Types.ObjectId, ref:'Product', required:true, minlength:1,maxlength:100},
     name:{ type:String, required:true, minlength:3,maxlength:100},
     image:{ type:String, required:true, minlength:3,maxlength:100},
     price:{ type:Number, required:true, minlength:1,maxlength:10},

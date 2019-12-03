@@ -34,4 +34,4 @@ function ValidationError(message){
     return Schema.validate(message);
 }
 
-module.exports = {Product,ValidationError}
+module.exports = {Product,ValidationError,productSchema}
