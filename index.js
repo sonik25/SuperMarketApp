@@ -22,7 +22,7 @@ app.use('/uploads',express.static(__dirname + '/uploads'));
 // if(!config.get("SMapps"))
 // {
 //         console.log('FATAL Error: SET Enviornment Valiable');
-//         process.exit(1);
+//         process.exit(0);
 // }
 
 mongoose.connect('mongodb://localhost/SuperMarket', {useNewUrlParser:true, useUnifiedTopology:true})
