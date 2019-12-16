@@ -131,53 +131,51 @@ router.get("/category/:id", async (req, res) => {
   }
 });
 
-router.get(
-  "/category/:id/subcategory/:subid/page/:pageIndex",
-  async (req, res) => {
-    try {
-      let subcat = await subCate.SubCategory.findById(req.params.subid);
-      console.log(subcat.name);
-      if (!subcat) {
-        res.status(403).send({ message: "Sub Category not found" });
-      }
-      let currentPage = req.params.pageIndex || 1;
-      let perPage = 2;
-
-      let categoryList = await Cate.Category.findById(req.params.id);
-      console.log(categoryList.name);
-      if (!categoryList) {
-        return res.status(403).send({ message: "Category not found" });
-      }
-
-      let prodList = await Prod.Product.find({
-        category: categoryList.name,
-        subCategory: subcat.name
-      })
-        .skip(perPage * currentPage - perPage)
-        .limit(perPage);
-      let prodCount = await Prod.Product.find({
-        category: categoryList.name,
-        subCategory: subcat.name
-      }).count();
-      let pageSize = Math.ceil(prodCount / perPage);
-      if (!prodList) {
-        return res.status(403).send({ message: "Product not found" });
-      }
-      console.log(prodList);
-
-      //res.send(prodList);
-      res.send({
-        perPage: perPage,
-        currentPage: currentPage,
-        prodCount: prodCount,
-        dataSize: prodList,
-        pageSize: pageSize
-      });
-    } catch (ex) {
-      res.send(ex.message);
+//router.get(  "/category/:id/subcategory/:subid/page/:pageIndex", async (req, res) => {
+router.get("/category/:id/subcategory/:subid", async (req, res) => {
+  try {
+    let subcat = await subCate.SubCategory.findById(req.params.subid);
+    console.log(subcat.name);
+    if (!subcat) {
+      res.status(403).send({ message: "Sub Category not found" });
     }
+    let currentPage = req.params.pageIndex || 1;
+    let perPage = 2;
+
+    let categoryList = await Cate.Category.findById(req.params.id);
+    console.log(categoryList.name);
+    if (!categoryList) {
+      return res.status(403).send({ message: "Category not found" });
+    }
+
+    let prodList = await Prod.Product.find({
+      category: categoryList.name,
+      subCategory: subcat.name
+    })
+      .skip(perPage * currentPage - perPage)
+      .limit(perPage);
+    let prodCount = await Prod.Product.find({
+      category: categoryList.name,
+      subCategory: subcat.name
+    }).count();
+    let pageSize = Math.ceil(prodCount / perPage);
+    if (!prodList) {
+      return res.status(403).send({ message: "Product not found" });
+    }
+    console.log(prodList);
+
+    //res.send(prodList);
+    res.send({
+      perPage: perPage,
+      currentPage: currentPage,
+      prodCount: prodCount,
+      dataSize: prodList,
+      pageSize: pageSize
+    });
+  } catch (ex) {
+    res.send(ex.message);
   }
-);
+});
 
 router.get("/offerProduct", async (req, res) => {
   try {
